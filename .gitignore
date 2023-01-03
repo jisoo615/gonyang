@@ -38,3 +38,6 @@ out/
 
 ### readme ###
 readme.md
+/gradlew.bat
+/gradlew
+/gradle/wrapper/gradle-wrapper.jar
