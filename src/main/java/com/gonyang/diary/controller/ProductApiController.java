@@ -27,23 +27,13 @@ public class ProductApiController {
 
     @PostMapping("product")
     public ResponseEntity<?> createProduct(@RequestBody ProductDto dto){
-        try{
-            System.out.println(dto);
+        List<Product> entities = productService.create(dto);
 
-            List<Product> entities = productService.create(dto);
-            System.out.println(entities.get(0));
+        List<ProductDto> dtos = entities.stream().map(ProductDto::new).collect(Collectors.toList());
 
-            List<ProductDto> dtos = entities.stream().map(ProductDto::new).collect(Collectors.toList());
-            System.out.println(dtos.get(0));
+        ResponseDto<ProductDto> response = ResponseDto.<ProductDto>builder().data(dtos).build();
 
-            ResponseDto<ProductDto> response = ResponseDto.<ProductDto>builder().data(dtos).build();
-            System.out.println(response);
-            return ResponseEntity.ok().body(dtos);
-        }catch (Exception e){
-            String error = e.getMessage();
-            ResponseDto<ProductDto> response = ResponseDto.<ProductDto>builder().error(error).build();
-            return ResponseEntity.badRequest().body(response);
-        }
+        return ResponseEntity.ok().body(dtos);
     }
 
     @PutMapping("product")
@@ -57,17 +47,11 @@ public class ProductApiController {
 
     @DeleteMapping("product")
     public ResponseEntity<?> deleteTodo(@RequestBody ProductDto dto){
-        try{
-            Product entity = ProductDto.toEntity(dto);
-            List<Product> entities = productService.delete(entity);
-            List<ProductDto> dtos = entities.stream().map(ProductDto::new).collect(Collectors.toList());
-            ResponseDto<ProductDto> repponse = ResponseDto.<ProductDto>builder().data(dtos).build();
-            return ResponseEntity.ok().body(repponse);
-        }catch (Exception e){
-            String error = e.getMessage();
-            ResponseDto<ProductDto> repponse = ResponseDto.<ProductDto>builder().error(error).build();
-            return ResponseEntity.badRequest().body(repponse);
-        }
+        Product entity = ProductDto.toEntity(dto);
+        List<Product> entities = productService.delete(entity);
+        List<ProductDto> dtos = entities.stream().map(ProductDto::new).collect(Collectors.toList());
+        ResponseDto<ProductDto> repponse = ResponseDto.<ProductDto>builder().data(dtos).build();
+        return ResponseEntity.ok().body(repponse);
     }
 
     // naver product search
