@@ -2,9 +2,11 @@ package com.gonyang.diary.dto;
 
 import com.gonyang.diary.entity.Product;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
